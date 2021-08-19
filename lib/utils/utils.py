@@ -185,27 +185,30 @@ class Vedio(object):
 
 class Map16(object):
     def __init__(self, vedioCap, visualpoint=True):
-        self.names = ("background", "floor", "bed", "cabinet,wardrobe,bookcase,shelf",
-                "person", "door", "table,desk,coffee", "chair,armchair,sofa,bench,swivel,stool",
-                "rug", "railing", "column", "refrigerator", "stairs,stairway,step", "escalator", "wall",
-                "dog", "plant")
+        self.names = ("unlabeled", "road", "sidewalk", "building",
+                "wall", "fence", "pole", "traffic_light",
+                "traffic_sign", "vegetation", "terrain", "sky", "person", "rider", "car",
+                "truck", "bus", "train", "motorcycle", "bicycle" )
         self.colors  = np.array([[0, 0, 0],
-                    [0, 0, 255],
-                    [0, 255, 0],
-                    [0, 255, 255],
-                    [255, 0, 0 ],
-                    [255, 0, 255 ], 
-                    [255, 255, 0 ],
-                    [255, 255, 255 ],
-                    [0, 0, 128 ],
-                    [0, 128, 0 ],
-                    [128, 0, 0 ],
-                    [0, 128, 128 ],
-                    [128, 0, 0 ],
-                    [128, 0, 128 ],
-                    [128, 128, 0 ],
-                    [128, 128, 128 ],
-                    [192, 192, 192 ]], dtype=np.uint8)
+                    [128, 64, 128],
+                    [244, 35, 232],
+                    [70, 70, 70],
+                    [102, 102, 156],
+                    [190, 153, 153], 
+                    [153, 153, 153],
+                    [250, 170, 30],
+                    [220, 220, 0],
+                    [107, 142, 35],
+                    [152, 251, 152],
+                    [70, 130, 180],
+                    [220, 20, 60],
+                    [255, 0, 0],
+                    [0, 0, 142],
+                    [0, 0, 70],
+                    [0, 60, 100],
+                    [0, 80, 100],
+                    [0, 0, 230],
+                    [119, 11, 32]], dtype=np.uint8)
         self.outDir = "output/map16"
         self.vedioCap = vedioCap
         self.visualpoint = visualpoint
