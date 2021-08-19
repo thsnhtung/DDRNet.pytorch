@@ -185,12 +185,11 @@ class Vedio(object):
 
 class Map16(object):
     def __init__(self, vedioCap, visualpoint=True):
-        self.names = ("unlabeled", "road", "sidewalk", "building",
+        self.names = ("road", "sidewalk", "building",
                 "wall", "fence", "pole", "traffic_light",
                 "traffic_sign", "vegetation", "terrain", "sky", "person", "rider", "car",
                 "truck", "bus", "train", "motorcycle", "bicycle" )
-        self.colors  = np.array([[0, 0, 0],
-                    [128, 64, 128],
+        self.colors  = np.array([[128, 64, 128],
                     [244, 35, 232],
                     [70, 70, 70],
                     [102, 102, 156],
