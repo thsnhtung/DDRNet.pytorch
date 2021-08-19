@@ -350,6 +350,10 @@ def DualResNet_imagenet(cfg, pretrained=False):
         model_dict.update(pretrained_state)
         
         model.load_state_dict(model_dict, strict = False)
+    # for name, p in model.named_parameters():
+        #   if "conv1" in name:
+        #     p.requires_grad = False
+        #     print(name)
     return model
 
 def get_seg_model(cfg, **kwargs):
