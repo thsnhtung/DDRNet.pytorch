@@ -48,7 +48,7 @@ class Simulation(BaseDataset):
             self.files = self.files[:num_samples]
 
         self.label_mapping = {0: 0, 255: 1}
-        self.class_weights = torch.FloatTensor([0.8373, 0.918]).cuda()
+        self.class_weights = torch.FloatTensor([1.0100, 0.99]).cuda()
     
     def read_files(self):
         files = []
