@@ -85,19 +85,21 @@ class Simulation(BaseDataset):
     def __getitem__(self, index):
         item = self.files[index]
         name = item["name"]
-        image = cv2.imread(os.path.join(self.root,'simulation',item["img"]),
+        image = cv2.imread(os.path.join(self.root,'Simulation',item["img"]),
                            cv2.IMREAD_COLOR)
         image = image[90:170,:]
         size = image.shape
+        image = self.input_transform(image)
+
 
         if 'test' in self.list_path:
-            image = self.input_transform(image)
             image = image.transpose((2, 0, 1))
 
             return image.copy(), np.array(size), name
 
-        label = cv2.imread(os.path.join(self.root,'simulation',item["label"]),
+        label = cv2.imread(os.path.join(self.root,'Simulation',item["label"]),
                            cv2.IMREAD_GRAYSCALE)
+                           
         label = label[90:170,:]
         label = (np.where(label > 255/2, 255, 0).astype('uint8'))
         label = self.convert_label(label)
