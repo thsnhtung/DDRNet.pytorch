@@ -3,7 +3,7 @@ CUDNN:
   DETERMINISTIC: false
   ENABLED: true
 GPUS: (0,)
-OUTPUT_DIR: '/content/drive/MyDrive/SegmentedData_Simulation/output'
+OUTPUT_DIR: 'output'
 LOG_DIR: 'log'
 WORKERS: 4
 PRINT_FREQ: 40
@@ -17,7 +17,7 @@ DATASET:
 MODEL:
   NAME: ddrnet_23_slim
   NUM_OUTPUTS: 2
-  PRETRAINED: "/content/drive/MyDrive/SegmentedData_Simulation/output/simulation/ddrnet23_slim/best.pth"
+  PRETRAINED: "C:\\Users\\Asus\\Downloads\\best.pth"
   ALIGN_CORNERS: false
 LOSS:
   USE_OHEM: true
@@ -57,5 +57,5 @@ TEST:
   MULTI_SCALE: false
   SCALE_LIST: [1]
   #0.5,0.75,1.0,1.25,1.5,1.75
-  MODEL_FILE: "/content/drive/MyDrive/SegmentedData_Simulation/output/simulation/ddrnet23_slim/best.pth"
+  MODEL_FILE: "C:\\Users\\Asus\\Downloads\\best.pth"
   OUTPUT_INDEX: 1

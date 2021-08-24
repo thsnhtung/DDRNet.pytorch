@@ -60,7 +60,6 @@ from utils.utils import create_logger, FullModel, speed_test
 
 
 
-
 def parse_args():
     parser = argparse.ArgumentParser(description='Train segmentation network')
     
@@ -91,6 +90,9 @@ def input_transform(image):
     return image
 
 
+
+
+
 #out = cv2.VideoWriter('C:\\Users\\Asus\\Desktop\\AICAR\\Unity-UIT_Car\\Code test Simulation\\Raw code\\Video.avi',cv2.VideoWriter_fourcc(*'DIVX'), 60, (320,180))
 #initialize our server
 sio = socketio.Server()
@@ -99,7 +101,7 @@ app = Flask(__name__)
 #registering event handler for the server
 @sio.on('telemetry')
 def telemetry(sid, data):
-    global lane_model, speed_model, i
+    global lane_model, speed_model, i, origin_img
     if data:
         steering_angle = 0  #Góc lái hiện tại của xe
         speed = 0           #Vận tốc hiện tại của xe
@@ -131,7 +133,7 @@ def telemetry(sid, data):
         sendBack_Speed = 0
         try:
             #------------------------------------------  Work space  ----------------------------------------------#
-            print("img: ", image.size())
+           
             with torch.no_grad():
                 out = model(image)
                 
@@ -142,14 +144,29 @@ def telemetry(sid, data):
                 )   
 
                 _, pred = torch.max(out, dim=1)
-                pred = pred.squeeze(0).cpu().numpy()
-                print(pred.shape)
-                cv2.imshow('Anh pred ', pred.astype('uint8') *255)
-                cv2.imshow('Anh goc ', origin_img)
+                pred = pred.squeeze(0).cpu().numpy().astype(np.uint8)
+
+                mask = np.zeros((180, 320), dtype=np.uint8)
+                mask[90:170] = pred
+                color = np.array([0,255,0], dtype='uint8')
+               
+                masked_img = np.where(mask[...,None], color, origin_img)
+
+                # use `addWeighted` to blend the two images
+                # the object will be tinted toward `color`
+                pred_image = cv2.addWeighted(origin_img, 0.5, masked_img, 0.5,0)
+
+                # pred_image = origin_img[90:170, :, :]
+                # contours, hierarchy = cv2.findContours(image=pred, mode=cv2.RETR_TREE, method=cv2.CHAIN_APPROX_NONE)
+                
+                # print(contours)
+                # cv2.drawContours(image=pred_image, contours=contours, contourIdx=-1, color=(0, 255, 0), thickness=2, lineType=cv2.LINE_AA)
+
+                cv2.imshow('image ', pred_image)
                 cv2.waitKey(1)
           
             #------------------------------------------------------------------------------------------------------#
-            print('{} : {}'.format(sendBack_angle, sendBack_Speed))
+            #print('{} : {}'.format(sendBack_angle, sendBack_Speed))
             send_control(sendBack_angle, sendBack_Speed)
         except Exception as e:
             print(e)

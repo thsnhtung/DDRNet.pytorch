@@ -85,7 +85,7 @@ class Simulation(BaseDataset):
     def brightness_augment(self, img, factor=0.5): 
         hsv = cv2.cvtColor(img, cv2.COLOR_RGB2HSV) #convert to hsv
         hsv = np.array(hsv, dtype=np.float64)
-        for i in range(0,random.randint(1, 10)):
+        for i in range(0,random.randint(3, 7)):
             shift_w_min = random.randint(0, 310)
             shift_w_max = random.randint(shift_w_min + 10 , 320)
 
@@ -96,6 +96,18 @@ class Simulation(BaseDataset):
             rgb = cv2.cvtColor(np.array(hsv, dtype=np.uint8), cv2.COLOR_HSV2RGB)
         return rgb
 
+
+    def add_white_line(self, img): 
+        for i in range(0,random.randint(3, 5)):
+            shift_w_min = random.randint(0, 310)
+            shift_w_max = shift_w_min + 10
+
+            shift_h_min = random.randint(0, 40)
+            shift_h_max = shift_h_min +30
+        
+            img[shift_h_min:shift_h_max, shift_w_min:shift_w_max, :] = 255
+        return img
+
     def __getitem__(self, index):
         item = self.files[index]
         name = item["name"]
@@ -104,7 +116,10 @@ class Simulation(BaseDataset):
         image = image[90:170,:]
 
         if random.random() < 0.5:
-            image = self.brightness_augment(image)
+            if random.random() < 0.5:
+                image = self.brightness_augment(image, factor = 0.1)
+            else:
+                image = self.add_white_line(image)
             
         size = image.shape
 
