@@ -2,22 +2,22 @@ CUDNN:
   BENCHMARK: true
   DETERMINISTIC: false
   ENABLED: true
-GPUS: (0,1)
-OUTPUT_DIR: 'output'
+GPUS: (0,)
+OUTPUT_DIR: '/content/drive/MyDrive/SegmentedData_Simulation/output'
 LOG_DIR: 'log'
 WORKERS: 4
-PRINT_FREQ: 10
+PRINT_FREQ: 40
 
 DATASET:
-  DATASET: cityscapes
-  ROOT: data/
-  TEST_SET: 'list/cityscapes/val.lst'
-  TRAIN_SET: 'list/cityscapes/train.lst'
-  NUM_CLASSES: 19
+  DATASET: simulation
+  ROOT: /content/DDRNet.pytorch/Datas/
+  TEST_SET: 'list/simulation/valid.lst'
+  TRAIN_SET: 'list/simulation/train.lst'
+  NUM_CLASSES: 2
 MODEL:
   NAME: ddrnet_23_slim
   NUM_OUTPUTS: 2
-  PRETRAINED: "pretrained_models/DDRNet23s_imagenet.pth"
+  PRETRAINED: "/content/drive/MyDrive/SegmentedData_Simulation/output/simulation/ddrnet23_slim/best.pth"
   ALIGN_CORNERS: false
 LOSS:
   USE_OHEM: true
@@ -26,10 +26,10 @@ LOSS:
   BALANCE_WEIGHTS: [1, 0.4]
 TRAIN:
   IMAGE_SIZE:
-  - 1024
-  - 1024
+  - 320
+  - 80
   BASE_SIZE: 2048
-  BATCH_SIZE_PER_GPU: 8
+  BATCH_SIZE_PER_GPU: 16
   SHUFFLE: true
   BEGIN_EPOCH: 0
   END_EPOCH: 484
@@ -40,19 +40,22 @@ TRAIN:
   MOMENTUM: 0.9
   NESTEROV: false
   FLIP: true
-  MULTI_SCALE: true
+  MULTI_SCALE: false
+  RANDOM_BRIGHTNESS: true
+  RANDOM_BRIGHTNESS_SHIFT_VALUE: 20
   DOWNSAMPLERATE: 1
   IGNORE_LABEL: 255
   SCALE_FACTOR: 16
+  RESUME: True
 TEST:
   IMAGE_SIZE:
-  - 2048
-  - 1024
+  - 320
+  - 80
   BASE_SIZE: 2048
   BATCH_SIZE_PER_GPU: 4
   FLIP_TEST: false
   MULTI_SCALE: false
   SCALE_LIST: [1]
   #0.5,0.75,1.0,1.25,1.5,1.75
-  # MODEL_FILE: "pretrained_models/best_val_smaller.pth"
+  MODEL_FILE: "/content/drive/MyDrive/SegmentedData_Simulation/output/simulation/ddrnet23_slim/best.pth"
   OUTPUT_INDEX: 1

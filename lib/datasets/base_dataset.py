@@ -146,12 +146,12 @@ class BaseDataset(data.Dataset):
             return img
         if random.random() < 0.5:
             return img
-        self.shift_value = config.TRAIN.RANDOM_BRIGHTNESS_SHIFT_VALUE
-        img = img.astype(np.float32)
-        shift = random.randint(-self.shift_value, self.shift_value)
-        img[:, :, :] += shift
-        img = np.around(img)
-        img = np.clip(img, 0, 255).astype(np.uint8)
+        # self.shift_value = config.TRAIN.RANDOM_BRIGHTNESS_SHIFT_VALUE
+        # img = img.astype(np.float32)
+        # shift = random.randint(-self.shift_value, self.shift_value)
+        # img[:, :, :] += shift
+        # img = np.around(img)
+        # img = np.clip(img, 0, 255).astype(np.uint8)
         return img
 
     def gen_sample(self, image, label,

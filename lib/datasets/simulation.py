@@ -9,7 +9,7 @@ import os
 import cv2
 import numpy as np
 from PIL import Image
-
+import random
 import torch
 from torch.nn import functional as F
 
@@ -82,12 +82,30 @@ class Simulation(BaseDataset):
                 label[temp == k] = v
         return label
 
+    def brightness_augment(self, img, factor=0.5): 
+        hsv = cv2.cvtColor(img, cv2.COLOR_RGB2HSV) #convert to hsv
+        hsv = np.array(hsv, dtype=np.float64)
+        for i in range(0,random.randint(1, 10)):
+            shift_w_min = random.randint(0, 310)
+            shift_w_max = random.randint(shift_w_min + 10 , 320)
+
+            shift_h_min = random.randint(0, 70)
+            shift_h_max = random.randint(shift_h_min+ 10 , 80)
+            hsv[shift_h_min: shift_h_max,shift_w_min : shift_w_max, 2] = hsv[shift_h_min: shift_h_max,shift_w_min : shift_w_max, 2] * (factor + np.random.uniform() ) #scale channel V uniformly 
+            hsv[:, :, 2][hsv[:, :, 2] > 255] = 255 #reset out of range values
+            rgb = cv2.cvtColor(np.array(hsv, dtype=np.uint8), cv2.COLOR_HSV2RGB)
+        return rgb
+
     def __getitem__(self, index):
         item = self.files[index]
         name = item["name"]
         image = cv2.imread(os.path.join(self.root,'Simulation',item["img"]),
                            cv2.IMREAD_COLOR)
         image = image[90:170,:]
+
+        if random.random() < 0.5:
+            image = self.brightness_augment(image)
+            
         size = image.shape
 
 
