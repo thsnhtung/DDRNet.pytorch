@@ -15,3 +15,4 @@ from .ade20k import ADE20K as ade20k
 from .map import MAP as map
 from .cocostuff import COCOStuff as cocostuff
 from .simulation import Simulation as simulation
+from .data_uit import UIT as uit
