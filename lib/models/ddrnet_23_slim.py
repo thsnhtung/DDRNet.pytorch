@@ -363,7 +363,7 @@ def get_seg_model(cfg, **kwargs):
 
 
 if __name__ == '__main__':
-    x = torch.rand(4, 3, 800, 800)
-    net = DualResNet_imagenet(pretrained=True)
+    x = torch.rand(4, 3, 512, 512)
+    net = DualResNet_imagenet(cfg = False, pretrained= False)
     y = net(x)
-    print(y.shape)
+    print(y[0].size())

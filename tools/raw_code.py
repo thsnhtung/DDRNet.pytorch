@@ -135,6 +135,8 @@ def telemetry(sid, data):
             #------------------------------------------  Work space  ----------------------------------------------#
            
             with torch.no_grad():
+                filename = 'savedImage.png'
+                cv2.imwrite(filename, origin_img)
                 out = model(image)
                 
 
